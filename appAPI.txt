@@ -3,3 +3,15 @@ Auth_Routes
 Register = localhost:3000/auth/register
 Login = localhost:3000/auth/login
 CheckUsername = localhost:3000/auth/checkusername
+optCheckpoint = localhost:3000/auth/checkpoint
+
+
+
+
+
+
+
+
+Product_Routes
+
+addProduct = localhost:3000/product/add
