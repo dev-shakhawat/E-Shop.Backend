@@ -24,7 +24,7 @@ async function registration(req, res) {
         // remove otp from database
         setTimeout(async () => {
             await User.findOneAndUpdate({ email }, { otp: null });
-        }, 120000);
+        }, 60000 * 5);
     
         res.status(201).send({
             success: true,

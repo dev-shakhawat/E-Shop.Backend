@@ -7,7 +7,22 @@ const dbConfig = require("./config/dbConfig");
 const router = require("./routes/index");
 const otpGen = require("./helpers/optGen");
 
+
+// cors middleware
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
+
+
+
+
+// db config
 dbConfig();
+
+
 
 app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));

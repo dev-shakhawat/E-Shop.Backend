@@ -4,6 +4,8 @@ const authrouter = require('./api/authApi');
 const productRouter = require('./api/productApi');
 
 
+ 
+
 // auth router
 router.use('/auth', authrouter);
 
