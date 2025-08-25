@@ -10,7 +10,7 @@ const authrouter = express.Router();
 
 
 // login controller
-authrouter.get('/login',  login );
+authrouter.post('/login',  login );
 
 
 // registration controller
