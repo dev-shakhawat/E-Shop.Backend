@@ -6,7 +6,7 @@ async function login(req, res) {
   try {
     const { email, password } = req.body; 
 
-    const user = await userSchema.findOne({ email })
+    const user = await userSchema.findOne({ email });
 
     if (!user) return res.status(400).send({ success: false, message: "user not found , please register first", data: null  });
     
@@ -18,23 +18,14 @@ async function login(req, res) {
     if (!user.emailVerified) return res.status(400).send({ success: true, message: "please verify your email first", data: null , redirectID: user._id });
     
 
-    console.log(req);
-    
+    const { password: _, ...safeUser } = user.toObject();
 
-
-    const data = {
-       _id: user._id,
-       email: user.email,
-       username: user.username,
-       emailVerified: user.emailVerified
-       
-    };
-
+    req.session.user = safeUser
     
     res.status(200).send({
       success: true,
       message: "user logged in successfully",
-      data,
+      data: user,
     });
 
 

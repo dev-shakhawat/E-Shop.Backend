@@ -11,7 +11,8 @@ app.use(express.json()); // for parsing application/json
 
 // cors middleware
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH , DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
@@ -24,13 +25,14 @@ app.use(
     store: MongoStore.create({
       mongoUrl: `mongodb+srv://${process.env.db_username}:${process.env.db_pass}@cluster0.mn2y2.mongodb.net/${process.env.db_username}?retryWrites=true&w=majority&appName=Cluster0`,
       collectionName: "sessions",
-      ttl: 30,    // one day time
+      ttl: 60 * 60 * 24 ,    // one day time
     }),
     secret: process.env.session_secret,
     resave: false,
     saveUninitialized: false,
     rolling: true,
-    cookie: { secure: false, httpOnly: false, maxAge: 1000 * 30 },
+    cookie: { secure: false, httpOnly: false, maxAge: 1000 * 60 * 60 * 24 },
+    name: "Eshop",
   })
 );
 
@@ -38,9 +40,7 @@ app.use(
 
 // db config
 dbConfig();
-
  
-
 
 app.use("/", router);
 

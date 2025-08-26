@@ -5,6 +5,8 @@ const registration = require('../../controllers/authControllers/registrationCont
 const usernameCheck = require('../../controllers/authControllers/usernameController'); 
 const mailverify = require('../../controllers/authControllers/mailVerify');
 const sendOTP = require('../../controllers/authControllers/sendOTP');
+const authMiddelware = require('../../middleware/authmiddleware');
+const getUser = require('../../controllers/authControllers/getUser');
 
 const authrouter = express.Router();
 
@@ -27,6 +29,10 @@ authrouter.get('/otpsend/:id',   sendOTP);
 
 // otp/email verify controller
 authrouter.post('/mailverify/:id', mailverify  );
+
+
+// get user data
+authrouter.get('/userdata', authMiddelware , getUser );
 
 
 
