@@ -16,13 +16,20 @@ async function login(req, res) {
     
 
     if (!user.emailVerified) return res.status(400).send({ success: true, message: "please verify your email first", data: null , redirectID: user._id });
-     const data = {
+    
+
+    console.log(req);
+    
+
+
+    const data = {
        _id: user._id,
        email: user.email,
        username: user.username,
        emailVerified: user.emailVerified
        
-     }
+    };
+
     
     res.status(200).send({
       success: true,
