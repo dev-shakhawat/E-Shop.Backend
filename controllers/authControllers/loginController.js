@@ -13,7 +13,9 @@ async function login(req, res) {
     const isMatch = await argon.verify(user.password, password);
 
     if (!isMatch) return res.status(400).send({ success: false, message: "invalid password", data: null  });
+    
 
+    if (!user.emailVerified) return res.status(400).send({ success: true, message: "please verify your email first", data: null , redirectID: user._id });
      const data = {
        _id: user._id,
        email: user.email,
