@@ -3,6 +3,14 @@ const { Schema } = mongoose;
 
 
 const userSchema = new Schema({ 
+    firstName:{
+      type: String,
+      default: ""
+    },
+    lastName:{
+      type: String,
+      default: ""
+    }, 
     email: {
       type: String,
       required: true,
@@ -35,10 +43,12 @@ const userSchema = new Schema({
       type: Boolean,
       default: false
     },
-    carts: {
-      type: Array,
-      default: []
+    carts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cart"
     }
+  ]
   });
 
 module.exports = mongoose.model('User', userSchema);

@@ -17,7 +17,7 @@ async function mailverify(req, res) {
            success: true,
            message: "email verified successfully",
            data: user,
-           redirectID: "/account"
+           redirectID: "/auth"
        });
 
 
