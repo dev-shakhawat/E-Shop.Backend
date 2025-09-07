@@ -1,8 +1,9 @@
 const productShema = require("../../models/productSchema");
 
 async function getProduct(req, res) {
+    
     try {
-        const { category, brand, minPrice, maxPrice } = req.query;
+        const { category, brand, minPrice, maxPrice , page = 1, limit = 16 } = req.query;
 
         let filter = {};
 
@@ -21,12 +22,13 @@ async function getProduct(req, res) {
 
         // price range filter
         if (minPrice && maxPrice) {
-            filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+            filter["price.currentPrice"] = { $gte: Number(minPrice), $lte: Number(maxPrice) };
         } else if (minPrice) {
-            filter.price = { $gte: Number(minPrice) };
+            filter["price.currentPrice"] = { $gte: Number(minPrice) };
         } else if (maxPrice) {
-            filter.price = { $lte: Number(maxPrice) };
-        }
+            filter["price.currentPrice"] = { $lte: Number(maxPrice) };
+        } 
+        
 
         const products = await productShema.find(filter);
 

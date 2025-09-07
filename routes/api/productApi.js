@@ -14,7 +14,7 @@ const getNewArrival = require("../../controllers/productControllers/getNewArriva
 // add product controller
 productRouter.post("/add" , upload.single("thumbnail")  , addProduct);
 
-productRouter.get("/all", getProduct);
+productRouter.get("/all/filter", getProduct);
 
 // get user product
 productRouter.get("/userProduct" , authMiddelware  , getUserProducts);
