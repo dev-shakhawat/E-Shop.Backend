@@ -7,6 +7,8 @@ const upload = require("../../helpers/multer");
 const getUserProducts = require("../../controllers/productControllers/getUsersProduct");
 const authMiddelware = require("../../middleware/authmiddleware");
 const deleteProduct = require("../../controllers/productControllers/deleteProduct");
+const getFeaturedProduct = require("../../controllers/productControllers/getFeaturedProduct");
+const getNewArrival = require("../../controllers/productControllers/getNewArrival");
 
 
 // add product controller
@@ -19,6 +21,14 @@ productRouter.get("/userProduct" , authMiddelware  , getUserProducts);
 
 // delete product
 productRouter.delete("/delete/:id" , authMiddelware , deleteProduct);
+
+
+// get featured product
+productRouter.get("/featured" , getFeaturedProduct);
+
+
+// get new arrival product
+productRouter.get("/newArrival" , getNewArrival);
 
 
 
