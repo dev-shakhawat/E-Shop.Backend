@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 
 const variantSchema = new mongoose.Schema({
     productID: {
-        type: {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
+        type:  mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
         required: true,
     },
     color: {

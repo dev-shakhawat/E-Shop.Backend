@@ -9,6 +9,7 @@ const authMiddelware = require("../../middleware/authmiddleware");
 const deleteProduct = require("../../controllers/productControllers/deleteProduct");
 const getFeaturedProduct = require("../../controllers/productControllers/getFeaturedProduct");
 const getNewArrival = require("../../controllers/productControllers/getNewArrival");
+const getSingleProduct = require("../../controllers/productControllers/getSingleProduct");
 
 
 // add product controller
@@ -29,6 +30,10 @@ productRouter.get("/featured" , getFeaturedProduct);
 
 // get new arrival product
 productRouter.get("/newArrival" , getNewArrival);
+
+
+// get singleProduct by id
+productRouter.get("/singleProduct/:id" , getSingleProduct);
 
 
 

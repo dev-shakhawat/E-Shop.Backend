@@ -74,7 +74,11 @@ const productSchema = new mongoose.Schema({
     warenty: {
         type: String,
         required: true,
-    }
+    },
+    variants: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Variant",
+    }]
 });
 
 module.exports =  mongoose.model("Product", productSchema);
