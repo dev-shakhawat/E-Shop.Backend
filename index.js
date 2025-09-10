@@ -6,6 +6,7 @@ const dbConfig = require("./config/dbConfig");
 const router = require("./routes/index");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const path = require("path");
 
 
 
@@ -13,7 +14,7 @@ app.use(express.json()); // for parsing application/json
 
 
  
-app.use(express.static("uploads"));   // multer image read static
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
 
 
 

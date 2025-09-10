@@ -43,7 +43,7 @@ async function addProduct(req, res) {
             brand: productBrand ? productBrand : "No Brand" ,
             warenty: productWarenty ? productWarenty : "No Warenty Available" ,
             category: productCategory,
-            thumbnail: `${process.env.BASE_URL}/${req.file.filename}`,
+            thumbnail: `${process.env.BASE_URL}/uploads/${req.file.filename}`,
         });
 
         if(!product) return res.status(400).send({ success: false, message: "Product not added , try again or contact admin", data: null  });

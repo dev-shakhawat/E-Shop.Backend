@@ -6,7 +6,7 @@ const getUserProducts = async (req, res) => {
 
     try{
         
-           const products = await productSchema.find({productOwner: req.user._id}).sort({createdAt: -1}); 
+           const products = await productSchema.find({productOwner: req.user._id}).sort({createdAt: -1}).populate("variants");  ; 
 
            if(!products) res.status(400).send({ success: false, message: "Products not found , please add products", data: null  });
 

@@ -1,11 +1,13 @@
 const deleteImage = require("../../helpers/deleteImage");
 const variantSchema = require("../../models/variantSchema"); 
+const productSchema = require("../../models/productSchema");
 
 
 async function addVariant(req, res) {
     try { 
  
         const { productSize , productQuantity , productPriceWithoutDescount , productDescount , productColor , productId } = req.body;
+        
 
         if(!productId) {
             req.files.map(file => deleteImage(file.path)) 
@@ -42,7 +44,7 @@ async function addVariant(req, res) {
  
         const variant = await variantSchema.create({
             productID: productId,
-            color:productColor , 
+            color: JSON.parse(productColor) , 
             size: productSize,
             quantity: productQuantity,
             price: {
@@ -53,7 +55,22 @@ async function addVariant(req, res) {
             images: req.files.map(file => `${process.env.BASE_URL}/${file.path}`)
         }) 
 
-        if(!variant) return res.status(400).send({ success: false, message: "Failed to add variant"  });
+        if(!variant) {
+            req.files.map(file => deleteImage(file.path)) 
+            return res.status(400).send({ success: false, message: "Failed to add variant"  });
+        }
+
+
+        // add variant id to product variants array
+        const product = await productSchema.findById(productId);
+        if(!product) {
+            req.files.map(file => deleteImage(file.path)) 
+            return res.status(400).send({ success: false, message: "Product not found"  });
+        }
+
+        product.variants.push(variant._id);
+        await product.save();
+
  
         return res.status(200).send({
             success: true,
