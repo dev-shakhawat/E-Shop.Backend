@@ -43,12 +43,18 @@ const userSchema = new Schema({
       type: Boolean,
       default: false
     },
-    carts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Cart"
+    carts: {
+      allCarts : [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Cart"
+          }
+        ]
+    },
+    subTotal: {
+      type: Number,
+      default: 0
     }
-  ]
   });
 
 module.exports = mongoose.model('User', userSchema);

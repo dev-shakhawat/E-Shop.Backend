@@ -4,7 +4,7 @@ function authMiddelware(req,res, next){
         req.user = req.session.user
         next()
     }else{
-        return res.status(400).json({success:false, message:"unauthorized user "})
+        return res.status(400).json({success:false, message:"Unauthorized user , please login first"})
     }
 }
 
