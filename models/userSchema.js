@@ -54,6 +54,18 @@ const userSchema = new Schema({
     subTotal: {
       type: Number,
       default: 0
+    },
+    billingAddress: {
+      firstName: String,
+      lastName: String,
+      phoneNumber: String,
+      emailAddress: String,
+      address: String, 
+      city: String,
+      state: String,
+      country: String,
+      zipCode: String,
+      orderNotes: String,
     }
   });
 

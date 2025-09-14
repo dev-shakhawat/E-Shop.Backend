@@ -16,6 +16,10 @@ variantRouter.delete('/delete/:id' ,  deleteVariant);
 
 
 
+// get variant 
+
+
+
  
  
 

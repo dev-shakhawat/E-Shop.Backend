@@ -6,6 +6,7 @@ const categoryRouter  = require('./api/categoryApi');
 const brandRouter = require('./api/brandApi');
 const cartRouter = require('./api/cartApi');
 const variantRouter = require('./api/variantApi');
+const shippingRouter = require('./api/shippingApi');
 
 
  
@@ -32,6 +33,10 @@ router.use('/cart', cartRouter);
 
 // variant route
 router.use('/variant' , variantRouter);
+
+
+// shipping route
+router.use('/shipping' , shippingRouter);
 
  
 

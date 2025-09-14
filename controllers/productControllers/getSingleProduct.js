@@ -3,7 +3,7 @@ const productSchema = require("../../models/productSchema");
 async function getSingleProduct(req, res) {
     try {
         const { id } = req.params;
-        const product = await productSchema.findById(id).populate("productOwner Variant");
+        const product = await productSchema.findById(id).populate("productOwner variants");
 
         if(!product) return res.status(400).send({ success: false, message: "Product not found"   });
 
