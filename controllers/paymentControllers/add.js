@@ -1,4 +1,4 @@
-const shippingSchema = require("../../models/shippingSchema");
+const orderSchema = require("../../models/orderSchema")
 const variantSchema = require("../../models/variantSchema")
 const mongoose = require("mongoose")
 const SSLCommerzPayment = require('sslcommerz-lts')
@@ -10,22 +10,23 @@ const is_live = false //true for live, false for sandbox
 
 
 
-async function addShipping(req, res) {
+async function addPayment(req, res) {
     try {
         
         const { billingAddress , variantInfo } = req.body;
         
-        const variant = variantSchema.findOne(variantInfo.variant._id)
+        const variant = await variantSchema.findById(variantInfo.variant._id)
         if(!variant) return res.status(400).send({success: false , message: "Product not found"})
+
+            const TransectionID = new mongoose.Types.ObjectId().toString().slice(0, 10)
              
     const data = {
         total_amount: variantInfo?.price,
         currency: 'BDT',
-        tran_id: new mongoose.Types.ObjectId().toString().slice(0, 10), // use unique tran_id for each api call
-        success_url: 'http://localhost:5173/payment/success',
-        fail_url: 'http://localhost:5173/payment/fail',
-        cancel_url: 'http://localhost:5173/payment/cancel',
-        ipn_url: 'http://localhost:5173/ipn',
+        tran_id: TransectionID, // use unique tran_id for each api call
+        success_url: `${process.env.BASE_URL}/payment/success/${TransectionID}`,
+        fail_url: `${process.env.BASE_URL}/payment/fail/${TransectionID}`,
+        cancel_url: `${process.env.BASE_URL}/payment/cancel/${TransectionID}`, 
         shipping_method: 'Courier',
         product_name: variantInfo?.title,
         product_category: 'Electronic',
@@ -36,7 +37,7 @@ async function addShipping(req, res) {
         cus_add2: 'Dhaka',
         cus_city: billingAddress.city,
         cus_state: 'Dhaka',
-        cus_postcode: '1000',
+        cus_postcode: billingAddress.zipcode,
         cus_country: 'Bangladesh',
         cus_phone: billingAddress.phone,
         cus_fax: '01711111111',
@@ -50,19 +51,29 @@ async function addShipping(req, res) {
     };
 
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
-    sslcz.init(data).then(apiResponse => {
+    sslcz.init(data).then(async (apiResponse) => {
+
+        await orderSchema.create({
+            orderedBy: req.user._id,
+            orderedProduct: variantInfo.variant._id,
+            orderQuantity: variantInfo.quantity,
+            orderPrice: variantInfo.price, 
+            transID: TransectionID
+        })
+
         // Redirect the user to payment gateway
         let GatewayPageURL = apiResponse.GatewayPageURL
         return res.status(200).send({url: GatewayPageURL}) 
+
     });
 
     } catch (error) {
         return res.status(500).send({
             success: false,
-            message: "wrong" || error.message,
+            message: error.message,
             data: null,
         });
     }
 }
 
-module.exports = addShipping
+module.exports = addPayment
