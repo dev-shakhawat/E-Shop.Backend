@@ -18,7 +18,7 @@ async function addPayment(req, res) {
         const variant = await variantSchema.findById(variantInfo.variant._id)
         if(!variant) return res.status(400).send({success: false , message: "Product not found"})
 
-            const TransectionID = new mongoose.Types.ObjectId().toString().slice(0, 10)
+            const TransectionID = new mongoose.Types.ObjectId().toString() 
              
     const data = {
         total_amount: variantInfo?.price,
